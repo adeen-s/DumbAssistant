@@ -12,6 +12,7 @@ with sr.Microphone() as source:
     print("Got the speech. Now processing...")
 
 # recognize speech using Wit.ai
+# Add your API key to a '.keys' file in the root of the project
 WIT_AI_KEY = ""
 with open(".keys", "r") as keys:
     WIT_AI_KEY = keys.readline().strip()
@@ -31,4 +32,10 @@ except sr.RequestError as e:
 if (in_speech):
     tts = gTTS(text=in_speech, lang="en")
     tts.save("out.mp3")
-    subprocess.Popen(["mpg123", "-q", "out.mp3"]).wait()
+    try:
+        subprocess.Popen(["mpg123", "-q", "out.mp3"]).wait()
+    except OSError as e:
+        if e.errno == os.errno.ENOENT:
+            print("You need to install mpg123 for this program to run")
+        else:
+            raise
