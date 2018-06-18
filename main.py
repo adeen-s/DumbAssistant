@@ -14,7 +14,7 @@ with sr.Microphone() as source:
 # recognize speech using Wit.ai
 WIT_AI_KEY = ""
 with open(".keys", "r") as keys:
-    WIT_AI_KEY = file.readline().strip()
+    WIT_AI_KEY = keys.readline().strip()
 if not WIT_AI_KEY:
     print("API key not available")
     exit()
